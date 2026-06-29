@@ -21,4 +21,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "AVLearning"
 include(":app")
- 
+
+include(":lessons:lesson01-binary")
+include(":lessons:lesson02-bmp")

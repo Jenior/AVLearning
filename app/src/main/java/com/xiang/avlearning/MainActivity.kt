@@ -16,7 +16,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // Example of a call to a native method
-        binding.sampleText.text = stringFromJNI()
+//        binding.sampleText.text = stringFromJNI()
+        binding.sampleText.text = helloFromJNI()
     }
 
     /**
@@ -24,6 +25,7 @@ class MainActivity : AppCompatActivity() {
      * which is packaged with this application.
      */
     external fun stringFromJNI(): String
+    external fun helloFromJNI(): String
 
     companion object {
         // Used to load the 'avlearning' library on application startup.
