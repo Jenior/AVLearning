@@ -1,2 +1,0 @@
-# AVLearning
-demo for AVLearning
