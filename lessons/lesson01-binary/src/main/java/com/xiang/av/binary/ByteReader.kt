@@ -34,15 +34,26 @@ class ByteReader(private val data: ByteArray) {
     }
 
     /**
+     * 读取 bytes
+     * @param count 读取数量
+     */
+    fun readBytes(count: Int): ByteArray {
+        requireRemaining(count)
+        val bytes = ByteArray(count)
+        for (i in 0 until count) {
+            bytes[i] = readByte()
+        }
+        return bytes
+    }
+
+    /**
      * 读取为 short
      */
     fun readShortLE(): Short {
-
         requireRemaining(SIZE_OF_SHORT)
         val b0 = data[position].toInt() and 0xff
         val b1 = data[position + 1].toInt() and 0xff
         position += SIZE_OF_SHORT
-
         return (b1.shl(8) or b0).toShort()
     }
 

@@ -1,5 +1,6 @@
 package com.xiang.av.bmp.model
 
+
 data class RgbPixel(
     val r: Int,
     val g: Int,

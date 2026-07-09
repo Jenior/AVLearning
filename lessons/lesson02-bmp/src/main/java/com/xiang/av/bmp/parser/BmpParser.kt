@@ -1,12 +1,10 @@
 package com.xiang.av.bmp.parser
 
-import android.util.SparseArray
 import com.xiang.av.binary.ByteReader
 import com.xiang.av.bmp.model.BmpFile
 import com.xiang.av.bmp.model.BmpFileHeader
 import com.xiang.av.bmp.model.BmpInfoHeader
 import com.xiang.av.bmp.model.RgbPixel
-import kotlin.math.round
 
 class BmpParser {
     /**
