@@ -1,29 +1,65 @@
 package com.xiang.avlearning
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import android.widget.TextView
-import com.xiang.avlearning.databinding.ActivityMainBinding
+import androidx.compose.foundation.layout.Column
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import com.xiang.av.binary.ByteReader
+import com.xiang.avlearning.base.BaseActivity
+import com.xiang.pcm.player.PcmPlayer
+import com.xiang.wav.parser.WavParser
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
+    private val scope = CoroutineScope(Dispatchers.IO)
+    @Composable
+    override fun InitView() {
+        Column() {
+            Text(text = stringFromJNI())
 
-    private lateinit var binding: ActivityMainBinding
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        // Example of a call to a native method
-//        binding.sampleText.text = stringFromJNI()
-        binding.sampleText.text = helloFromJNI()
+            Text(text = helloFromJNI())
+        }
     }
 
-    /**
-     * A native method that is implemented by the 'avlearning' native library,
-     * which is packaged with this application.
-     */
+    override fun initData() {
+        scope.launch {
+            val bytes =
+                assets.open("test.wav")
+                    .use {
+                        it.readBytes()
+                    }
+            val input = assets.open("test.wav")
+
+
+            val reader = ByteReader(bytes)
+
+            val wav =
+                WavParser()
+                    .parseWavFile(reader)
+
+            val fmt = wav.fmt
+
+            val player = PcmPlayer()
+            player.play(input)
+
+            player.prepare(
+                sampleRate = fmt.sampleRate,
+                channels = fmt.channels.toInt(),
+                bitsPerSample = fmt.bitsPerSample.toInt()
+            )
+
+            player.play(
+                wav.data.pcmData
+            )
+        }
+
+    }
+
+    override fun providerTitle(): String {
+        return "这是标题"
+    }
+
     external fun stringFromJNI(): String
     external fun helloFromJNI(): String
 

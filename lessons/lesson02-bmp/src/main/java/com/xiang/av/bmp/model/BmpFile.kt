@@ -1,6 +1,5 @@
 package com.xiang.av.bmp.model
 
-import com.xiang.av.rgb.RgbPixel
 
 data class BmpFile(
     val fileHeader: BmpFileHeader, val infoHeader: BmpInfoHeader,
